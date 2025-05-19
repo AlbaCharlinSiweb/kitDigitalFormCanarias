@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FormField from './FormField';
-import { createContract } from '../services/api';
+import { createContact, createContract } from '../services/api';
 import { isValidSpanishId } from '../services/validatorCif';
 
 interface FormData {
@@ -82,6 +82,13 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
         await createContract({
           tax_id: formData.cif.toUpperCase(),
           product: formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'
+        });
+
+        await createContact({
+          name: formData.nombre,
+          cif: formData.cif,
+          phone: parseInt(formData.telefono),
+          option: formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'
         });
         
         setIsSubmitted(true);
